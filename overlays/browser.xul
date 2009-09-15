@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<overlay id="cmdenter" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+<script><![CDATA[
+	window.addEventListener("load", function(event){
+
+		var urlbar = document.getElementById("urlbar");
+		eval("urlbar.handleCommand ="+urlbar.handleCommand.toString().replace('aTriggeringEvent.altKey','aTriggeringEvent.metaKey'));
+	
+		document.getElementById('urlbar')._canonizeURL = function(aTriggeringEvent) {
+			if (!gURLBar || !gURLBar.value)
+				return false;
+
+			gURLBar.value = getShortcutOrURI(gURLBar.value, null);		
+	  		gBrowser.userTypedValue = gURLBar.value;
+
+	  		return [gURLBar.value, null];
+		};
+
+		var searchbar = document.getElementById("searchbar");
+		eval("searchbar.handleSearchCommand ="+searchbar.handleSearchCommand.toString().replace('aEvent.altKey','aEvent.metaKey'));
+	
+	}, false);
+]]></script>
+
+</overlay>
