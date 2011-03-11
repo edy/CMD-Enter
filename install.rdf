@@ -3,7 +3,7 @@
 	xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>{2EDB42C9-61A9-4114-8EBE-77BBACB0069C}</em:id>
-		<em:version>2.0</em:version>
+		<em:version>2.1</em:version>
 		<em:name>CMD+Enter</em:name>
 		<em:description>Open a URL in a new tab using CMD+Enter instead of ALT+Enter.</em:description>
 		<em:creator>Eduard Baun (eduard@baun.de)</em:creator>
