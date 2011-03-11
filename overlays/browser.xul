@@ -3,11 +3,18 @@
 <overlay id="cmdenter" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 
 <script><![CDATA[
-	window.addEventListener("load", function(event){
-
-		var urlbar = document.getElementById("urlbar");
-		eval("urlbar.handleCommand ="+urlbar.handleCommand.toString().replace('aTriggeringEvent.altKey','aTriggeringEvent.metaKey'));
+	window.addEventListener("load", function(){
 	
+		var urlbar = document.getElementById("urlbar");
+		var handleCommand = urlbar.handleCommand.toString();
+		handleCommand = handleCommand.replace('aTriggeringEvent.altKey', 'aTriggeringEvent.metaKey');
+		
+		// Fixes error: missing ; before statement
+		handleCommand = handleCommand.replace('let prevTab', 'var prevTab');
+		handleCommand = handleCommand.replace('let where', 'var where');
+		
+		eval("urlbar.handleCommand = " + handleCommand);
+		
 		document.getElementById('urlbar')._canonizeURL = function(aTriggeringEvent) {
 			if (!gURLBar || !gURLBar.value)
 				return false;
@@ -17,11 +24,14 @@
 
 	  		return [gURLBar.value, null];
 		};
-
-		var searchbar = document.getElementById("searchbar");
-		eval("searchbar.handleSearchCommand ="+searchbar.handleSearchCommand.toString().replace('aEvent.altKey','aEvent.metaKey'));
 	
+		var searchbar = document.getElementById("searchbar");
+		var handleSearchCommand = searchbar.handleSearchCommand.toString();
+		handleSearchCommand = handleSearchCommand.replace('aEvent.altKey', 'aEvent.metaKey');
+		eval("searchbar.handleSearchCommand = " + handleSearchCommand);
+
 	}, false);
+
 ]]></script>
 
 </overlay>

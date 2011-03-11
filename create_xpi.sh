@@ -1,3 +1,3 @@
 #!/usr/bin/sh
 
-zip CMD-Enter.xpi ./install.rdf ./chrome.manifest ./overlays/*
+zip CMD-Enter2.xpi ./install.rdf ./chrome.manifest ./overlays/*
