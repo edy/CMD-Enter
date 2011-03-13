@@ -3,14 +3,14 @@
 	xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>{2EDB42C9-61A9-4114-8EBE-77BBACB0069C}</em:id>
-		<em:version>2.1</em:version>
+		<em:version>2.2</em:version>
 		<em:name>CMD+Enter</em:name>
-		<em:description>Open a URL in a new tab using CMD+Enter instead of ALT+Enter.</em:description>
+		<em:description>Open an URL in a new tab using CMD+Enter instead of ALT+Enter.</em:description>
 		<em:creator>Eduard Baun (eduard@baun.de)</em:creator>
 		<em:targetApplication>
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-				<em:minVersion>4.0b1</em:minVersion>
+				<em:minVersion>3.5</em:minVersion>
 				<em:maxVersion>4.0.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>

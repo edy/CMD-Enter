@@ -9,7 +9,7 @@
 		var handleCommand = urlbar.handleCommand.toString();
 		handleCommand = handleCommand.replace('aTriggeringEvent.altKey', 'aTriggeringEvent.metaKey');
 		
-		// Fixes error: missing ; before statement
+		// Fixes error in Firefox 4: missing ; before statement
 		handleCommand = handleCommand.replace('let prevTab', 'var prevTab');
 		handleCommand = handleCommand.replace('let where', 'var where');
 		
