@@ -3,6 +3,9 @@
 [Install](https://addons.mozilla.org/addon/cmdenter)
 
 ## Changelog:
+### 2.3 (June 17, 2011)
+Changed max-version to 5.*
+
 ### 2.2 (March 13, 2011)
 Changed min-version to 3.5
 

@@ -3,7 +3,8 @@
 	xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>{2EDB42C9-61A9-4114-8EBE-77BBACB0069C}</em:id>
-		<em:version>2.2</em:version>
+		<em:type>2</em:type>
+		<em:version>2.3</em:version>
 		<em:name>CMD+Enter</em:name>
 		<em:description>Open an URL in a new tab using CMD+Enter instead of ALT+Enter.</em:description>
 		<em:creator>Eduard Baun (eduard@baun.de)</em:creator>
@@ -11,13 +12,8 @@
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
 				<em:minVersion>3.5</em:minVersion>
-				<em:maxVersion>4.0.*</em:maxVersion>
+				<em:maxVersion>5.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
-		<em:file>
-			<Description about="urn:mozilla:extension:file:cmdenter">
-				<em:package>content/</em:package>
-			</Description>
-		</em:file>
 	</Description>
 </RDF>
