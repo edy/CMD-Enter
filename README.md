@@ -1,8 +1,13 @@
-# CMD+Enter 2.2
+# CMD+Enter 2.4
 
 [Install](https://addons.mozilla.org/addon/cmdenter)
 
 ## Changelog:
+### 2.4 (July 22, 2011)
+* New Icon
+* Changed max-version to 7.*
+* Fixed canonizeURL (autocomplete .com by pressing ALT+Enter)
+
 ### 2.3 (June 17, 2011)
 Changed max-version to 5.*
 

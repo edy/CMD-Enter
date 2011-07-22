@@ -1,2 +1,3 @@
-content	cmdenter overlays/
-overlay chrome://browser/content/browser.xul chrome://cmdenter/content/browser.xul
+content	cmdenter	chrome/content/
+
+overlay chrome://browser/content/browser.xul chrome://cmdenter/content/cmdenter.xul 
