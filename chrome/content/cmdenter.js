@@ -1,4 +1,4 @@
-if (typeof CMDEnter == "undefined") {
+if (typeof CMDPlusEnter == "undefined") {
 	var CMDPlusEnter = {
 		init : function() {
 			this.urlbar = document.getElementById("urlbar");
