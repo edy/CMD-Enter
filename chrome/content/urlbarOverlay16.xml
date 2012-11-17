@@ -1,0 +1,170 @@
+<?xml version="1.0"?>
+
+<bindings id="CMDEnterUrlbarBindings" xmlns="http://www.mozilla.org/xbl">
+
+  <binding id="urlbar" extends="chrome://browser/content/urlbarBindings.xml">
+    <implementation implements="nsIObserver, nsIDOMEventListener">
+      <children />
+      <method name="handleCommand">
+        <parameter name="aTriggeringEvent"/>
+        <body><![CDATA[
+          if (aTriggeringEvent instanceof MouseEvent && aTriggeringEvent.button == 2)
+            return; // Do nothing for right clicks
+
+          var url = this.value;
+          var mayInheritPrincipal = false;
+          var postData = null;
+
+          var action = this._parseActionUrl(url);
+          if (action) {
+            url = action.param;
+            if (this.hasAttribute("actiontype")) {
+              if (action.type == "switchtab") {
+                this.handleRevert();
+                let prevTab = gBrowser.selectedTab;
+                if (switchToTabHavingURI(url) &&
+                    isTabEmpty(prevTab))
+                  gBrowser.removeTab(prevTab);
+              }
+              return;
+            }
+          }
+          else {
+            [url, postData, mayInheritPrincipal] = this._canonizeURL(aTriggeringEvent);
+            if (!url)
+              return;
+          }
+
+          this.value = url;
+          gBrowser.userTypedValue = url;
+          try {
+            addToUrlbarHistory(url);
+          } catch (ex) {
+            // Things may go wrong when adding url to session history,
+            // but don't let that interfere with the loading of the url.
+            Cu.reportError(ex);
+          }
+
+          function loadCurrent() {
+            let flags = Ci.nsIWebNavigation.LOAD_FLAGS_ALLOW_THIRD_PARTY_FIXUP;
+            // Pass LOAD_FLAGS_DISALLOW_INHERIT_OWNER to prevent any loads from
+            // inheriting the currently loaded document's principal, unless this
+            // URL is marked as safe to inherit (e.g. came from a bookmark
+            // keyword).
+            if (!mayInheritPrincipal)
+              flags |= Ci.nsIWebNavigation.LOAD_FLAGS_DISALLOW_INHERIT_OWNER;
+            // If the value wasn't typed, we know that we decoded the value as
+            // UTF-8 (see losslessDecodeURI)
+            if (!this.valueIsTyped)
+              flags |= Ci.nsIWebNavigation.LOAD_FLAGS_URI_IS_UTF8;
+            gBrowser.loadURIWithFlags(url, flags, null, null, postData);
+          }
+
+          // Focus the content area before triggering loads, since if the load
+          // occurs in a new tab, we want focus to be restored to the content
+          // area when the current tab is re-selected.
+          gBrowser.selectedBrowser.focus();
+
+          let isMouseEvent = aTriggeringEvent instanceof MouseEvent;
+          let altEnter = !isMouseEvent && aTriggeringEvent && aTriggeringEvent.metaKey;
+
+          if (altEnter) {
+            // XXX This was added a long time ago, and I'm not sure why it is
+            // necessary. Alt+Enter's default action might cause a system beep,
+            // or something like that?
+            aTriggeringEvent.preventDefault();
+            aTriggeringEvent.stopPropagation();
+          }
+
+          // If the current tab is empty, ignore Alt+Enter (just reuse this tab)
+          altEnter = altEnter && !isTabEmpty(gBrowser.selectedTab);
+
+          if (isMouseEvent || altEnter) {
+            // Use the standard UI link behaviors for clicks or Alt+Enter
+            let where = "tab";
+            if (isMouseEvent)
+              where = whereToOpenLink(aTriggeringEvent, false, false);
+
+            if (where == "current") {
+              loadCurrent();
+            } else {
+              this.handleRevert();
+              let params = { allowThirdPartyFixup: true, postData: postData };
+              if (!this.valueIsTyped)
+                params.isUTF8 = true;
+              openUILinkIn(url, where, params);
+            }
+          } else {
+            loadCurrent();
+          }
+        ]]></body>
+      </method>
+
+      <method name="_canonizeURL">
+        <parameter name="aTriggeringEvent"/>
+        <body><![CDATA[
+          var url = this.value;
+          if (!url)
+            return ["", null, false];
+
+          // Only add the suffix when the URL bar value isn't already "URL-like",
+          // and only if we get a keyboard event, to match user expectations.
+          if (/^\s*[^.:\/\s]+(?:\/.*|\s*)$/i.test(url) &&
+              (aTriggeringEvent instanceof KeyEvent)) {
+//#ifdef XP_MACOSX
+            let accel = aTriggeringEvent.altKey;
+//#else
+//            let accel = aTriggeringEvent.ctrlKey;
+//#endif
+            let shift = aTriggeringEvent.shiftKey;
+
+            let suffix = "";
+
+            switch (true) {
+              case (accel && shift):
+                suffix = ".org/";
+                break;
+              case (shift):
+                suffix = ".net/";
+                break;
+              case (accel):
+                try {
+                  suffix = gPrefService.getCharPref("browser.fixup.alternate.suffix");
+                  if (suffix.charAt(suffix.length - 1) != "/")
+                    suffix += "/";
+                } catch(e) {
+                  suffix = ".com/";
+                }
+                break;
+            }
+
+            if (suffix) {
+              // trim leading/trailing spaces (bug 233205)
+              url = url.trim();
+
+              // Tack www. and suffix on.  If user has appended directories, insert
+              // suffix before them (bug 279035).  Be careful not to get two slashes.
+
+              let firstSlash = url.indexOf("/");
+
+              if (firstSlash >= 0) {
+                url = url.substring(0, firstSlash) + suffix +
+                      url.substring(firstSlash + 1);
+              } else {
+                url = url + suffix;
+              }
+
+              url = "http://www." + url;
+            }
+          }
+
+          var postData = {};
+          var mayInheritPrincipal = { value: false };
+          url = getShortcutOrURI(url, postData, mayInheritPrincipal);
+
+          return [url, postData.value, mayInheritPrincipal.value];
+        ]]></body>
+      </method>
+     </implementation>
+   </binding>
+</bindings>

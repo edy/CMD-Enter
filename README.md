@@ -1,8 +1,11 @@
-# CMD+Enter 2.4
+# CMD+Enter 2.6
 
 [Install](https://addons.mozilla.org/addon/cmdenter)
 
 ## Changelog:
+### 2.6 (November 17, 2012)
+* Compatible with Firefox 16 and above
+
 ### 2.5 (August 21, 2011)
 * Code namespacing
 * Changed max-version to 8.*

@@ -4,15 +4,15 @@
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>{2EDB42C9-61A9-4114-8EBE-77BBACB0069C}</em:id>
 		<em:type>2</em:type>
-		<em:version>2.5</em:version>
+		<em:version>2.6</em:version>
 		<em:name>CMD+Enter</em:name>
 		<em:description>Press CMD+Enter in url bar to open a new tab with url bar contents. This Add-on mimics the same behaviour as you know from Safari or Chrome on Mac OS.</em:description>
 		<em:creator>Eduard Baun (eduard@baun.de)</em:creator>
 		<em:targetApplication>
 			<Description>
 				<em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
-				<em:minVersion>3.5</em:minVersion>
-				<em:maxVersion>8.*</em:maxVersion>
+				<em:minVersion>16.0</em:minVersion>
+				<em:maxVersion>18.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>
 	</Description>

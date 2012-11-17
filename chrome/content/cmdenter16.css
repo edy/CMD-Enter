@@ -1,0 +1,9 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#urlbar {
+  -moz-binding: url("chrome://cmdenter/content/urlbarOverlay16.xml#urlbar");
+}
+
+#searchbar {
+  -moz-binding: url("chrome://cmdenter/content/searchbarOverlay16.xml#searchbar");
+}
