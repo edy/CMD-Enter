@@ -1,3 +1,4 @@
 content	cmdenter	chrome/content/
 
 overlay chrome://browser/content/browser.xul chrome://cmdenter/content/cmdenter16.xul appversion>=16
+overlay chrome://browser/content/browser.xul chrome://cmdenter/content/cmdenter25.xul appversion>=25

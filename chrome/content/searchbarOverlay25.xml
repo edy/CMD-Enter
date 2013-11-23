@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<bindings id="CMDEnterSearchBindings"
+          xmlns="http://www.mozilla.org/xbl"
+          xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+          xmlns:xbl="http://www.mozilla.org/xbl">
+
+  <binding id="searchbar" extends="chrome://browser/content/search/search.xml">
+    <implementation implements="nsIObserver">
+      <children />
+
+      <method name="handleSearchCommand">
+        <parameter name="aEvent"/>
+        <body><![CDATA[
+          var textBox = this._textbox;
+          var textValue = textBox.value;
+
+          var where = "current";
+          if (aEvent && aEvent.originalTarget.getAttribute("anonid") == "search-go-button") {
+            if (aEvent.button == 2)
+              return;
+            where = whereToOpenLink(aEvent, false, true);
+          }
+          else {
+            var newTabPref = textBox._prefBranch.getBoolPref("browser.search.openintab");
+            if ((aEvent && aEvent.metaKey) ^ newTabPref)
+              where = "tab";
+          }
+
+          this.doSearch(textValue, where);
+        ]]></body>
+      </method>
+    </implementation>
+  </binding>
+</bindings>
